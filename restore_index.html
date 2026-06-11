@@ -1,0 +1,41 @@
+                        sans: ['Manrope', 'system-ui', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'md': '10px',
+                        'lg': '12px',
+                        'xl': '16px',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <meta name="color-scheme" content="dark">
+</head>
+<body class="bg-base text-text-primary antialiased">
+
+    <!-- Animated particle/constellation backdrop -->
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+    <!-- ===================== HEADER ===================== -->
+    <header class="sticky top-0 z-50 backdrop-blur-xl bg-base/70 border-b border-white-6">
+        <div class="max-w-[1400px] mx-auto px-5 sm:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-8">
+                    <a href="index.html" class="flex items-center gap-2.5">
+                        <svg class="w-8 h-8 logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Helitiva logo">
+                            <defs>
+                                <linearGradient id="logoGradH" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#10b981"/><stop offset="0.5" stop-color="#22d3ee"/><stop offset="1" stop-color="#6366f1"/>
+                                </linearGradient>
+                            </defs>
+                            <rect x="0" y="0" width="40" height="40" rx="11" fill="url(#logoGradH)"/>
+                            <rect x="11" y="10.5" width="5" height="19" rx="1.6" fill="#fff"/>
+                            <rect x="24" y="10.5" width="5" height="19" rx="1.6" fill="#fff"/>
+                            <rect x="14" y="17.5" width="12" height="5" rx="1.6" fill="#fff"/>
+                        </svg>
+                        <span class="text-[16px] font-bold tracking-tight">Helitiva<span class="text-accent">.</span></span>
+                    </a>
+                    <nav class="hidden md:flex items-center gap-1">
+                        <a href="#services" data-i18n="nav.services" class="px-3 py-2 text-[13px] font-medium text-text-secondary hover:text-text-primary rounded-md hover:bg-panel-strong">Services</a>
+                        <a href="#why-labs" data-i18n="nav.why" class="px-3 py-2 text-[13px] font-medium text-text-secondary hover:text-text-primary rounded-md hover:bg-panel-strong">Why Labs</a>

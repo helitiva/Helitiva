@@ -1,0 +1,89 @@
+Created At: 2026-06-05T08:43:49Z
+Completed At: 2026-06-05T08:43:49Z
+File Path: `file:///Users/huy/Desktop/Projects/Web2/Helitiva%20landing/index.js`
+Total Lines: 930
+Total Bytes: 49248
+Showing lines 1 to 800
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: /* ==========================================================================
+2:    HELITIVA LABS - CYBER INTERACTIVE ENGINE & MULTILINGUAL SYSTEMS
+3:    ========================================================================== */
+4: 
+5: // 1. TRANSLATION DICTIONARY (EN & VI)
+6: const translations = {
+7:     en: {
+8:         nav: {
+9:             services: "Services",
+10:             why: "Why Labs",
+11:             cases: "Case Studies",
+12:             contact: "Hire Us",
+13:             cta: "Scope Project"
+14:         },
+15:         hero: {
+16:             indicator: "4 Active Builds This Week",
+17:             title: "We build digital<br><span class=\"text-accent\">products.</span> <span class=\"text-text-muted\">Not just code.</span>",
+18:             desc: "A software development lab engineering high-leverage products: Webapps, AI tools, marketing automations, and SEO scaling systems. Built with speed, scoped with data.",
+19:             cta_estim: "Start Project Estimator",
+20:             cta_demo: "Explore Our Demos"
+21:         },
+22:         stats: {
+23:             shipped: "Products Shipped",
+24:             ai: "AI Agents Built",
+25:             automations: "Automations Active",
+26:             traffic: "SEO Traffic Driven",
+27:             growth: "100% Growth",
+28:             deployed: "Deployed",
+29:             uptime: "Jobs / Daily",
+30:             daily: "340% Growth"
+31:         },
+32:         services: {
+33:             subtitle: "Our Specialties",
+34:             title: "Interact with our technology.",
+35:             desc: "We don't do bori
+<truncated 45280 bytes>
+getElementById('seo-content-slider');
+760:     const trafficCount = document.getElementById('seo-traffic-projected');
+761:     const sparkline = document.getElementById('seo-svg-path');
+762: 
+763:     if (!slider || !trafficCount || !sparkline) return;
+764: 
+765:     const paths = {
+766:         1: 'M0,18 L12,16 L25,17 L38,15 L50,16 L62,14 L75,15 L88,13 L100,12',
+767:         2: 'M0,18 L12,15 L25,16 L38,11 L50,13 L62,9 L75,10 L88,7 L100,5',
+768:         3: 'M0,18 L12,14 L25,13 L38,8 L50,9 L62,4 L75,5 L88,2 L100,1'
+769:     };
+770: 
+771:     const updateSEO = () => {
+772:         const level = parseInt(slider.value, 10);
+773:         let traffic = 0;
+774: 
+775:         if (level === 1) {
+776:             traffic = 12400;
+777:         } else if (level === 2) {
+778:             traffic = 48200;
+779:         } else {
+780:             traffic = 156000;
+781:         }
+782: 
+783:         sparkline.setAttribute('d', paths[level]);
+784:         animateValue(trafficCount, parseInt(trafficCount.innerText.replace(/[^0-9]/g, '') || '0', 10), traffic, 200, '');
+785:     };
+786: 
+787:     slider.addEventListener('input', updateSEO);
+788:     updateSEO();
+789: }
+790: 
+791: // ==========================================================================
+792: // 8. FAQ ACCORDION INTERACTIVITY
+793: // ==========================================================================
+794: function initFAQAccordions() {
+795:     const faqItems = document.querySelectorAll('.faq-item');
+796:     faqItems.forEach(item => {
+797:         const header = item.querySelector('.faq-header');
+798:         header.addEventListener('click', () => {
+799:             const isActive = item.classList.contains('active');
+800:             
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view t
+<truncated 12 bytes>
+
+NOTE: The output was truncated because it was too long. Use a more targeted query or a smaller range to get the information you need.

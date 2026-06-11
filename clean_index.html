@@ -1,0 +1,1086 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>helitiva-landing</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+    <link href="index.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        base: '#030303',
+                        sidebar: '#050506',
+                        panel: '#090a0c',
+                        'panel-strong': '#0e1013',
+                        'panel-soft': '#14171c',
+                        'panel-muted': '#1f242d',
+                        accent: '#00f5a0',
+                        'accent-strong': '#00d9f5',
+                        'accent-soft': 'rgba(0, 245, 160, 0.10)',
+                        green: '
+
+
+
+
+
+
+
+
+                        sans: ['Manrope', 'system-ui', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'md': '10px',
+                        'lg': '12px',
+                        'xl': '16px',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <meta name="color-scheme" content="dark">
+</head>
+<body class="bg-base text-text-primary antialiased">
+
+    <!-- Animated particle/constellation backdrop -->
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+    <!-- ===================== HEADER ===================== -->
+    <header class="sticky top-0 z-50 backdrop-blur-xl bg-base/70 border-b border-white-6">
+        <div class="max-w-[1400px] mx-auto px-5 sm:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-8">
+                    <a href="index.html" class="flex items-center gap-2.5">
+                        <svg class="w-8 h-8 logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Helitiva logo">
+                            <defs>
+                                <linearGradient id="logoGradH" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#10b981"/><stop offset="0.5" stop-color="#22d3ee"/><stop offset="1" stop-color="#6366f1"/>
+                                </linearGradient>
+                            </defs>
+                            <rect x="0" y="0" width="40" height="40" rx="11" fill="url(#logoGradH)"/>
+                            <rect x="11" y="10.5" width="5" height="19" rx="1.6" fill="#fff"/>
+                            <rect x="24" y="10.5" width="5" height="19" rx="1.6" fill="#fff"/>
+                            <rect x="14" y="17.5" width="12" height="5" rx="1.6" fill="#fff"/>
+                        </svg>
+                        <span class="text-[16px] font-bold tracking-tight">Helitiva<span class="text-accent">.</span></span>
+                    </a>
+                    <nav class="hidden md:flex items-center gap-1">
+                        <a href="#services" data-i18n="nav.services" class="px-3 py-2 text-[13px] font-medium text-text-secondary hover:text-text-primary rounded-md hover:bg-panel-strong">Services</a>
+                        <a href="#why-labs" data-i18n="nav.why" class="px-3 py-2 text-[13px] font-medium text-text-secondary hover:text-text-primary rounded-md hover:bg-panel-strong">Why Labs</a>
+
+
+
+
+
+                <div class="flex items-center gap-3">
+                    <!-- Bilingual Switch Button (EN | VI) -->
+                    <div class="flex items-center bg-panel-strong border border-white-6 rounded-lg p-0.5">
+                        <button id="lang-switch-en" class="px-2.5 py-1 text-[10px] font-bold rounded transition-all">EN</button>
+                        <button id="lang-switch-vi" class="px-2.5 py-1 text-[10px] font-bold rounded transition-all">VI</button>
+                    </div>
+                    
+                    <a href="#contact" data-i18n="nav.cta" class="hidden sm:inline-flex items-center btn-primary px-4 py-2 rounded-md text-[13px] font-semibold transition-colors">
+                        Scope Project
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="relative overflow-hidden min-h-[90dvh] flex items-center z-10">
+        <!-- Video Background -->
+        <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0 opacity-[0.62] pointer-events-none">
+            <source src="components_remix_scene.webm" type="video/webm">
+        </video>
+        <!-- Dark gradient overlay to ensure text contrast and smooth blend -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#030303]/20 via-[#030303]/60 to-[#030303] z-10 pointer-events-none"></div>
+        <div c
+                <div class="lg:col-span-7 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-panel shadow-sm border border-white-6 rounded-full text-[12px] mb-8">
+        
+
+
+
+
+
+
+                            <span class="relative bg-green rounded-full w-1.5 h-1.5"></span>
+                        </span>
+                        <span class="text-text-secondary" data-i18n="hero.indicator">4 Active Builds This Week</span>
+                    </div>
+
+                    <h1 class="text-[40px] sm:text-[60px] lg:text-[76px] font-bold tracking-[-0.03em] leading-[1.02] mb-6 max-w-3xl" data-i18n="hero.title">
+                        We build digital<br><span class="text-gradient">products.</span> <span class="text-text-muted">Not just code.</span>
+                    </h1>
+
+                    <p class="text-[16px] sm:text-[18px] text-text-secondary leading-relaxed mb-10 max-w-2xl mx-auto lg:mx-0" data-i18n="hero.desc">
+                        A software development lab engineering high-leverage products: Webapps, AI tools, marketing automations, and white-hat SEO tooling. Built with speed, scoped with data.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+                        <a href="#contact" data-i18n="hero.cta_estim" class="w-full sm:w-auto inline-flex items-center justify-center btn-primary px-6 py-3.5 rounded-xl text-[14px] font-semibold">
+                            Start Project Estimator <i class="fas fa-arrow-right ml-2 text-[10px]"></i>
+                        </a>
+                        <a href="#services" data-i18n="hero.cta_demo" class="w-full sm:w-auto inline-flex items-center justify-center btn-ghost px-6 py-3.5 rounded-xl text-[14px] font-semibold">
+                            Explore Our Demos
+                        </a>
+                    </div>
+
+                        <div class="terminal-header flex items-center justify-between px-4 py-2 bg-panel-strong border-b border-white-6 rounded-t-xl">
+                            <div class="flex items-center gap-1.5">
+                                <span class="terminal-dot bg-[#ef6363]"></span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+                <!-- Plan 2 (Highlighted) -->
+                <div class="bg-panel border-2 border-accent/30 rounded-2xl p-6 flex flex-col justify-between relative theme-violet">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-accent text-[#030303] text-[9px] font-extrabold uppercase rounded tracking-wider">Most Popular</div>
+                    <div>
+                        <div class="flex items-center justify-between mb-4 mt-2">
+                            <span class="text-[14px] font-bold text-white" data-i18n="pricing.plan2_title">MVP Sprint</span>
+                            <span class="text-[11px] text-accent bg-accent-soft px-2.5 py-0.5 rounded font-semibold" data-i18n="pricing.plan2_time">3-4 Weeks</span>
+                        </div>
+                        <p class="text-[12px] text-text-secondary mb-6 leading-relaxed" data-i18n="pricing.plan2_desc">Best for custom SaaS platforms, fully loaded AI agents, or automated database products.</p>
+                        
+                        <div class="mb-6">
+                            <span class="text-[36px] font-bold text-white" data-i18n="pricing.plan2_price">$18,500</span>
+                            <span class="text-[11px] text-text-muted">/ sprint</span>
+                        </div>
+
+                        <ul class="space-y-3 text-[12px] text-text-secondary mb-8 border-t border-white-6 pt-5">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-[10px] text-accent"></i> <span data-i18n="pricing.plan2_item1">Production-ready Web App</span></li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-[10px] text-accent"></
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <button type="button" data-i18n="form.btn_back" class="prev-step-btn px-5 py-2.5 bg-panel-strong border border-white-6 rounded-lg text-[13px] font-semibold text-text-primary hover:bg-panel-soft transition-colors">
+                                Back
+                            </button>
+                            <button type="button" data-i18n="form.btn_next" class="next-step-btn px-6 py-2.5 bg-accent hover:bg-accent-strong text-[#030303] rounded-lg text-[13px] font-bold transition-all">
+                                Next Step
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Details & Contact -->
+                    <div class="form-step space-y-4 hidden">
+                        <label class="block text-[14px] font-bold text-text-primary mb-1" data-i18n="form.step3_title">Tell us about your project:</label>
+                        <textarea name="description" required data-i18n-placeholder="form.step3_placeholder" placeholder="Describe what you want to build (e.g., An AI-driven SaaS app for rank tracking)..." rows="4"
+                                  class="w-full p-3 bg-panel-strong border border-white-6 rounded-xl text-[13px] focus:outline-none focus:border-accent/50 text-text-primary placeholder:text-text-muted"></textarea>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div>
+                       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <li><a href="#" class="text-text-muted hover:text-text-primary">About Us</a></li>
+                        <li><a href="#cases" class="text-text-muted hover:text-text-primary">Case Studies</a></li>
+                        <li><a href="#contact" class="text-text-muted hover:text-text-primary">Contact</a></li>
+                        <li><a href="#" class="text-text-muted hover:text-text-primary">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="pt-6 border-t border-white-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="text-[11px] text-text-muted" data-i18n="footer.copyright">
+                    © 2026 Helitiva Labs · All rights reserved · 100% IP ownership guaranteed
+                </div>
+                <div class="flex gap-4 text-[11px]">
+                    <a href="#" class="text-text-muted hover:text-text-primary" data-i18n="footer.privacy">Privacy</a>
+                    <a href="#" class="text-text-muted hover:text-text-primary" data-i18n="footer.terms">Terms</a>
+                    <a href="#" class="text-text-muted hover:text-text-primary" data-i18n="footer.sitemap">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="index.js"></script>
+    <script>
+        // Setup initial services and state manager
+        document.addEventListener('DOMContentLoaded', () => {
+            initLanguageManager();
+            initTerminalEmulator();
+            initFAQAccordions();
+        });
+    </script>
+</body>
+</html>
+

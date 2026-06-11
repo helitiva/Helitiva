@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helitiva — Thoughtful Software for Ambitious Teams</title>
+    <meta name="description" content="A product studio that designs, builds, and ships digital products — web platforms, intelligent systems, automation infrastructure, and growth engineering.">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+        * { -webkit-font-smoothing: antialiased; }
+        html, body { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #04070a;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .font-display { font-family: 'Space Grotesk', sans-serif; }
+
+        /* ============ DEPTH LAYERS ============ */
+        .bg-grid {
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(16, 185, 129, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.035) 1px, transparent 1px);
+            background-size: 56px 56px;
+            background-position: -1px -1px;
+            mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black 0%, transparent 75%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black 0%, transparent 75%);
+            pointer-events: none; z-index: 0;
+        }
+
+        .bg-spotlight {
+            position: fixed; top: -300px; left: 50%; transform: translateX(-50%);
+            width: 1400px; height: 900px;
+            background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.18) 0%, rgba(16, 185, 129, 0.06) 30%, transparent 65%);
+            filter: blur(60px); pointer-events: none; z-index: 0;
+        }
+
+        .bg-vignette {
+            position: fixed; inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.6) 100%);
+            pointer-events: none; z-index: 0;
+        }
+
+        .bg-noise {
+            position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+            opacity: 0.025; pointer-events: none; z-index: 1; mix-blend-mode: overlay;
+        }
+
+        /* ============ AURORA ============ */
+        .aurora { position: fixed; pointer-events: none; border-radius: 50%; filter: blur(140px); opacity: 0.55; z-index: 0; }
+        .aurora-1 { top: -300px; left: -250px; width: 700px; height: 700px; background: radial-gradient(circle, rgba(16, 185, 129, 0.5) 0%, transparent 70%); animation: drift1 22s ease-in-out infinite; }
+        .aurora-2 { bottom: -300px; right: -250px; width: 800px; height: 800px; background: radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, transparent 70%); animation: drift2 28s ease-in-out infinite; }
+        .aurora-3 { top: 40%; left: 35%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 70%); animation: drift1 30s ease-in-out infinite reverse; }
+        @keyframes drift1 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(80px, 60px) scale(1.1); } }
+        @keyframes drift2 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-60px, -80px) scale(1.15); } }
+
+        /* ============ CARDS ============ */
+        .feature-card {
+            background: linear-gradient(180deg, #0d1820 0%, #060a0e 100%) !important;
+            border: 1px solid rgba(110, 231, 183, 0.10) !important;
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05) !important;
+            position: relative; overflow: hidden;
+            transition: transform 320ms ease, border-color 320ms ease, box-shadow 320ms ease;
+        }
+        .feature-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 60%;
+            background: radial-gradient(80% 100% at 50% 0%, rgba(16, 185, 129, 0.14), transparent 70%);
+            pointer-events: none; z-index: 0;
+        }
+        .feature-card > * { position: relative; z-index: 1; }
+        .feature-card:hover {
+            transform: translateY(-6px) !important;
+            border-color: rgba(110, 231, 183, 0.35) !important;
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08), 0 18px 36px -14px rgba(16, 185, 129, 0.25) !important;
+        }
+
+        .glass-mini {
+            background: rgba(14, 17, 22, 0.30);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .glass-emerald {
+            background-image: linear-gradient(180deg, #03110a 24%, #0a1f15 100%) !important;
+            background-color: transparent !important;
+            border: 1px solid rgba(110, 231, 183, 0.25) !important;
+            box-shadow: inset 0 14px 20px -8px rgba(167, 243, 208, 0.55), inset 0 8px 18px 1px rgba(52, 211, 153, 0.40), inset 0 0 4px rgba(110, 231, 183, 0.50) !important;
+        }
+
+        /* ============ BUTTONS ============ */
+        .btn-primary, .btn-ghost {
+            display: inline-block; padding: 1px; border-radius: 10px;
+            cursor: pointer; border: none; background-color: transparent;
+            font-family: inherit; text-decoration: none;
+            transition: background-image 220ms ease, transform 220ms ease;
+        }
+        .btn-primary { background-image: linear-gradient(180deg, rgba(16, 185, 129, 0) 0%, rgba(16, 185, 129, 0.55) 40%, rgba(110, 231, 183, 0.7) 100%); }
+        .btn-ghost { background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.18) 60%); }
+        .btn-primary > span, .btn-ghost > span {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 12px 22px; border-radius: 9px; font-size: 13px; font-weight: 600;
+            letter-spacing: -0.01em; transition: background-color 220ms ease, box-shadow 220ms ease;
+            position: relative; z-index: 1;
+        }
+        .btn-primary > span { background-color: #0a1620; color: #a7f3d0; box-shadow: inset 0 -8px 16px rgba(16, 185, 129, 0.45); }
+        .btn-ghost > span { background-color: rgba(13, 17, 22, 0.6); color: #ffffff; box-shadow: inset 0 -6px 14px rgba(255, 255, 255, 0.04); }
+        .btn-primary > span::before, .btn-ghost > span::before {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 80%; height: 1px; z-index: 2; pointer-events: none;
+        }
+        .btn-primary > span::before { background: linear-gradient(90deg, transparent, rgba(167, 243, 208, 0.85) 50%, transparent); }
+        .btn-ghost > span::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4) 50%, transparent); }
+        .btn-primary > span::after {
+            content: ''; position: absolute; left: 50%; bottom: -8px; transform: translateX(-50%);
+            width: 60%; height: 16px;
+            background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.5), transparent 70%);
+            filter: blur(4px); pointer-events: none; z-index: 0;
+        }
+        .btn-primary:hover { background-image: linear-gradient(180deg, rgba(16, 185, 129, 0.1) 0%, rgba(110, 231, 183, 0.85) 60%); transform: translateY(-1px); }
+        .btn-primary:hover > span { background-color: #0d1f28; box-shadow: inset 0 -10px 22px rgba(110, 231, 183, 0.6); }
+        .btn-ghost:hover { background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.35) 60%); transform: translateY(-1px); }
+        .btn-ghost:hover > span { box-shadow: inset 0 -8px 18px rgba(255, 255, 255, 0.08); }
+        .btn-lg > span { padding: 16px 28px; font-size: 14px; }
+        .arrow { transition: transform 250ms ease-out; display: inline-block; }
+        .btn-primary:hover .arrow, .btn-ghost:hover .arrow { transform: translateX(4px); }
+
+        /* ============ GRADIENT TEXT ============ */
+        .grad-emerald {
+            background: linear-gradient(135deg, #6ee7b7 0%, #10b981 60%, #047857 100%);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* ============ LIVE DOT ============ */
+        .live-dot { position: relative; display: inline-flex; width: 8px; height: 8px; }
+        .live-dot::before {
+            content: ''; position: absolute; inset: 0; border-radius: 50%; background: #10b981;
+            opacity: 0.7; animation: ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        .live-dot::after { content: ''; position: absolute; inset: 1px; border-radius: 50%; background: #10b981; }
+        @keyframes ping { 75%, 100% { transform: scale(2.2); opacity: 0; } }
+
+        /* ============ TYPOGRAPHY ============ */
+        .hero-h1 { font-size: clamp(32px, 4.5vw, 56px); line-height: 1.06; letter-spacing: -0.025em; font-weight: 700; }
+        .nano { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+        .nano-sm { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; }
+
+        /* ============ NAV ============ */
+        .nav-scrolled { background: rgba(14, 17, 22, 0.60) !important; border-bottom: 1px solid rgba(16, 185, 129, 0.12); }
+
+        /* ============ FAQ ============ */
+        .faq-item { border-left: 2px solid transparent; transition: border-color 250ms; }
+        .faq-item.open { border-left-color: #10b981; }
+        .faq-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 300ms ease-out; }
+        .faq-item.open .faq-body { grid-template-rows: 1fr; }
+        .faq-body-inner { overflow: hidden; min-height: 0; }
+        .faq-chevron { transition: transform 250ms; }
+        .faq-item.open .faq-chevron { transform: rotate(90deg); }
+
+        /* ============ UTILS ============ */
+        .scroll-mt { scroll-margin-top: 64px; }
+        .divider-glow { height: 1px; background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.25), transparent); }
+        .mini-bar { height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.06); overflow: hidden; }
+        .mini-bar-fill { height: 100%; background: linear-gradient(90deg, #10b981, #6ee7b7); border-radius: 3px; transition: width 1.2s cubic-bezier(.2,.8,.2,1); }
+        .scroll-cue { animation: bobCue 2.4s ease-in-out infinite; }
+        @keyframes bobCue { 0%, 100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(8px); opacity: 1; } }
+
+        [data-anim] { opacity: 0; transform: translate3d(0, 40px, 0); will-change: transform, opacity; }
+
+        /* ============ 3D CARD TILT ============ */
+        .card-3d { perspective: 800px; }
+        .card-3d-inner { transition: transform 400ms ease-out, box-shadow 400ms ease-out; transform-style: preserve-3d; will-change: transform; }
+        .card-3d-inner:hover { box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.25) !important; }
+
+        /* ============ CURSOR GLOW ============ */
+        .cursor-glow { position: relative; overflow: hidden; }
+        .cursor-glow::after {
+            content: ''; position: absolute; width: 300px; height: 300px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15), transparent 70%);
+            pointer-events: none; transform: translate(-50%, -50%); opacity: 0; transition: opacity 300ms;
+        }
+        .cursor-glow:hover::after { opacity: 1; }
+
+        /* ============ HERO WORD ANIM ============ */
+        .hero-word { display: inline-block; opacity: 0; transform: translate3d(0, 50px, 0); will-change: transform, opacity; }
+
+        /* ============ MAGNETIC BUTTON ============ */
+        .btn-magnetic { transition: transform 200ms ease-out; }
+
+        /* ============ GRADIENT SHIMMER ============ */
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .text-shimmer {
+            background: linear-gradient(90deg, #10b981, #a7f3d0, #fff, #a7f3d0, #10b981);
+            background-size: 200% auto;
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shimmer 4s linear infinite;
+        }
+
+        /* ============ COUNTER POP ============ */
+        .counter-pop { transform: scale(0); }
+
+        /* ============ LINE DRAW ============ */
+        .line-draw { transform: scaleX(0); transform-origin: left; }
+
+        /* ============ STAGGER CHILD ANIM ============ */
+        .stagger-up > * { opacity: 0; transform: translateY(30px); }
+
+
+
+        /* Step card */
+        .step-card { background: linear-gradient(180deg, #0d1820 0%, #060a0e 100%); border: 1px solid rgba(110, 231, 183, 0.08); box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04); will-change: transform; }
+
+        /* Feature card 3D ready */
+        .feature-card { perspective: 800px; transform-style: preserve-3d; will-change: transform; }
+
+        /* Waveform animation */
+        @keyframes wave { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
+
+        /* Typing cursor */
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .cursor-blink { animation: blink 1s step-end infinite; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.15); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 0.3); }
+
+        /* Tech stack hover */
+        .tech-item { transition: border-color 220ms, transform 220ms; }
+        .tech-item:hover { border-color: rgba(16, 185, 129, 0.4) !important; transform: translateY(-2px); }
+
+        /* Form */
+        .form-input {
+            background: rgba(14, 17, 22, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            color: #e2e8f0;
+            width: 100%;
+            outline: none;
+            transition: border-color 200ms;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .form-input:focus { border-color: rgba(16, 185, 129, 0.5); }
+        .form-input::placeholder { color: rgba(148, 163, 184, 0.5); }
+        textarea.form-input { resize: vertical; min-height: 120px; }
+    </style>
+</head>
+<body class="text-white">
+
+    <!-- Depth layers -->
+    <div class="bg-spotlight"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-vignette"></div>
+    <div class="bg-noise"></div>
+
+    <!-- Aurora -->
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+
+    <!-- ============ NAV ============ -->
+    <nav id="topnav" class="fixed top-0 left-0 right-0 z-50 h-[56px] flex items-center px-6 transition-all duration-300" style="background: rgba(14,17,22,0.05); backdrop-filter: blur(8px);">
+        <div class="flex items-center gap-2.5">
+            <!-- Logo mark -->
+            <svg width="28" height="28" viewBox="0 0 100 100" fill="#a7f3d0" class="drop-shadow-[0_0_6px_rgba(16,185,129,0.5)]">
+                <path d="M35.6 89.5 A42 42 0 0 1 35.6 10.5 L40.8 24.6 A27 27 0 0 0 40.8 75.4Z"/>
+                <path d="M64.4 10.5 A42 42 0 0 1 64.4 89.5 L59.2 75.4 A27 27 0 0 0 59.2 24.6Z"/>
+                <rect x="8" y="43" width="84" height="14"/>
+            </svg>
+            <span class="font-display font-bold text-[20px] tracking-tight">Helitiva<span class="text-emerald-400">_</span></span>
+        </div>
+
+        <!-- Center links -->
+        <div class="hidden md:flex items-center gap-7 ml-12">
+            <a href="#services" class="text-[13px] text-slate-400 hover:text-white transition-colors">Services</a>
+            <a href="#approach" class="text-[13px] text-slate-400 hover:text-white transition-colors">Approach</a>
+            <a href="#stack" class="text-[13px] text-slate-400 hover:text-white transition-colors">Stack</a>
+            <a href="#faq" class="text-[13px] text-slate-400 hover:text-white transition-colors">FAQ</a>
+        </div>
+
+        <!-- Right -->
+        <div class="ml-auto flex items-center gap-4">
+            <a href="#contact" class="btn-primary">
+                <span>Get in touch <span class="arrow">→</span></span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- ============ HERO ============ -->
+    <section class="relative pt-[88px] pb-16 min-h-screen flex items-center px-6 overflow-hidden">
+        <div class="max-w-[1080px] w-full mx-auto grid lg:grid-cols-12 gap-10 items-center relative z-10">
+
+            <!-- LEFT -->
+            <div class="lg:col-span-6 space-y-7">
+                <!-- Eyebrow -->
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 glass-mini rounded-full" data-anim>
+                    <span class="live-dot"></span>
+                    <span class="nano text-emerald-400">Now accepting projects</span>
+                </div>
+
+                <!-- H1 -->
+                <h1 class="hero-h1" data-anim>
+                    Thoughtful software<br>
+                    for <span class="grad-emerald">ambitious</span> teams.
+                </h1>
+
+                <!-- Sub -->
+                <p class="text-[16px] text-slate-300 leading-relaxed max-w-[520px]" data-anim>
+                    A product studio that designs, builds, and ships digital products — from first prototype to scaled infrastructure. Web platforms. Intelligent systems. Growth engines.
+                </p>
+
+                <!-- CTAs -->
+                <div class="flex flex-wrap items-center gap-3" data-anim>
+                    <a href="#contact" class="btn-primary">
+                        <span>Start a project <span class="arrow">→</span></span>
+                    </a>
+                    <a href="#services" class="btn-ghost">
+                        <span>See what we do</span>
+                    </a>
+                </div>
+
+                <!-- Trust strips -->
+                <div class="flex flex-wrap gap-2 pt-2" data-anim>
+                    <span class="glass-mini rounded-full px-3 py-1.5 nano-sm text-slate-300 inline-flex items-center gap-1.5">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>
+                        100% IP OWNERSHIP
+                    </span>
+                    <span class="glass-mini rounded-full px-3 py-1.5 nano-sm text-slate-300 inline-flex items-center gap-1.5">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z"/></svg>
+                        FULL SOURCE HANDOVER
+                    </span>
+                    <span class="glass-mini rounded-full px-3 py-1.5 nano-sm text-slate-300 inline-flex items-center gap-1.5">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+                        14-DAY PROTOTYPES
+                    </span>
+                </div>
+            </div>
+
+            <!-- RIGHT — Interactive 3D Globe -->
+            <div class="lg:col-span-6 relative">
+                <div class="globe-wrap relative" style="width: 100%; aspect-ratio: 1/1; max-width: 520px; margin: 0 auto; transform: translateY(-20px);">
+                    <!-- Glow behind globe -->
+                    <div class="absolute inset-[8%] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(16,185,129,0.18) 0%, transparent 60%); filter: blur(40px); z-index: 0;"></div>
+
+                    <!-- Globe iframe (same as CISOL) -->
+                    <iframe
+                        id="globe-frame"
+                        src="Threejs-globe/index.html?v=1"
+                        class="absolute inset-0 w-full h-full border-0 pointer-events-none select-none"
+                        style="transform: scale(1.3); transform-origin: center; z-index: 1;"
+                        scrolling="no"
+                        title="Helitiva global network"></iframe>
+
+                    <!-- Floating tags -->
+                    <div class="absolute glass-mini rounded-md px-3 py-2" style="top: 12%; left: -6%; z-index: 10; animation: floatTag 5s ease-in-out infinite; animation-delay: -1.5s;">
+                        <div class="nano-sm text-emerald-400 mb-0.5">PROTOTYPE</div>
+                        <div class="text-[11px] text-slate-300">Ready in 14 days</div>
+                    </div>
+                    <div class="absolute glass-mini rounded-md px-3 py-2" style="top: 55%; right: -8%; z-index: 10; animation: floatTag 5s ease-in-out infinite; animation-delay: -3s;">
+                        <div class="nano-sm text-emerald-400 mb-0.5">POST-LAUNCH</div>
+                        <div class="text-[11px] text-slate-300">30 days free support</div>
+                    </div>
+                    <div class="absolute glass-mini rounded-md px-3 py-2" style="bottom: 8%; left: 4%; z-index: 10; animation: floatTag 5s ease-in-out infinite; animation-delay: -4.5s;">
+                        <div class="nano-sm text-emerald-400 mb-0.5">FULL HANDOVER</div>
+                        <div class="text-[11px] text-slate-300">100% source ownership</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll cue -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 scroll-cue">
+            <span class="nano-sm text-slate-500">SCROLL TO EXPLORE</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+    </section>
+
+    <div class="divider-glow max-w-[1080px] mx-auto"></div>
+
+    <!-- ============ NUMBERS ============ -->
+    <section class="scroll-mt relative py-20 px-6 z-10">
+        <div class="max-w-[1080px] mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6" data-anim>
+                <div class="text-center">
+                    <div class="font-display font-bold text-[42px] leading-none grad-emerald" data-count="10">0</div>
+                    <div class="nano text-slate-400 mt-2">YEARS EXPERIENCE</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display font-bold text-[42px] leading-none text-white">4</div>
+                    <div class="nano text-slate-400 mt-2">DISCIPLINES</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display font-bold text-[42px] leading-none grad-emerald" data-count="14">0</div>
+                    <div class="nano text-slate-400 mt-2">DAYS TO PROTOTYPE</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display font-bold text-[42px] leading-none text-white">100<span class="text-[22px] text-slate-500">%</span></div>
+                    <div class="nano text-slate-400 mt-2">IP OWNERSHIP</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider-glow max-w-[1080px] mx-auto"></div>
+
+    <!-- ============ SERVICES ============ -->
+    <section id="services" class="scroll-mt relative py-28 px-6 z-10">
+        <div class="max-w-[1080px] mx-auto">
+            <!-- Header -->
+            <div class="max-w-[720px] mb-14" data-anim>
+                <div class="inline-flex items-center gap-2 mb-5">
+                    <span class="nano text-emerald-400">[ 01 ]</span>
+                    <span class="nano text-slate-400">WHAT WE DO</span>
+                </div>
+                <h2 class="font-display font-bold text-[44px] leading-[1.1] tracking-tight mb-4">
+                    Four disciplines.<br><span class="grad-emerald">One studio.</span>
+                </h2>
+                <p class="text-[15px] text-slate-400 leading-relaxed">
+                    Each discipline has its own depth — dedicated tooling, frameworks, and delivery patterns refined through years of real-world engineering.
+                </p>
+            </div>
+
+            <!-- Grid -->
+            <div class="grid md:grid-cols-2 gap-6">
+
+                <!-- Card 1 — Web Platforms -->
+                <div class="feature-card rounded-xl p-7" data-anim>
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-11 h-11 rounded-lg glass-emerald flex items-center justify-center">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                        </div>
+                        <span class="nano text-emerald-400">01 · WEB PLATFORMS</span>
+                    </div>
+                    <h3 class="font-display font-bold text-[22px] mb-3">Applications people actually want to use.</h3>
+                    <p class="text-[14px] text-slate-300 leading-relaxed mb-5">
+                        We design and engineer web applications that feel considered — fast, intuitive, and built for the long run. SaaS products, internal tools, marketplaces.
+                    </p>
+                    <!-- Mini viz: dashboard skeleton -->
+                    <div class="glass-mini rounded-lg p-4 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="nano-sm text-slate-500">DASHBOARD PREVIEW</span>
+                            <span class="live-dot" style="width:6px;height:6px;"></span>
+                        </div>
+                        <div class="flex gap-2">
+                            <div class="flex-1 h-16 rounded bg-emerald-500/10 border border-emerald-500/15 p-2">
+                                <div class="nano-sm text-slate-500">MRR</div>
+                                <div class="font-display font-bold text-emerald-400 text-[16px] mt-1">$42.8K</div>
+                            </div>
+                            <div class="flex-1 h-16 rounded bg-white/[0.02] border border-white/5 p-2">
+                                <div class="nano-sm text-slate-500">USERS</div>
+                                <div class="font-display font-bold text-white text-[16px] mt-1">3,241</div>
+                            </div>
+                            <div class="flex-1 h-16 rounded bg-white/[0.02] border border-white/5 p-2">
+                                <div class="nano-sm text-slate-500">CHURN</div>
+                                <div class="font-display font-bold text-white text-[16px] mt-1">2.1%</div>
+                            </div>
+                        </div>
+                        <div class="flex items-end gap-[3px] h-8">
+                            <div class="flex-1 rounded-sm bg-emerald-500/20" style="height:30%"></div>
+                            <div class="flex-1 rounded-sm bg-emerald-500/25" style="height:45%"></div>
+                            <div class="flex-1 rounded-sm bg-emerald-500/30" style="height:55%"></div>
+                            <div class="flex-1 rounded-sm bg-emerald-500/35" style="height:50%"></div>
+                            <div class="flex-1 rounded-sm bg-emerald-500/40" style="height:65%"></div>
+                            <div class="flex-1 rounded-sm bg-emerald-500/50" style="height:72%"></div>
+                            <div class="flex-1 rounded-sm bg-emerald-500/55" style="height:68%"></div>
+                            <div class="flex-1 rounded-sm bg-emerald-500/60" style="height:80%"></div>
+                            <div class="flex-1 rounded-sm bg-emerald-500/65" style="height:78%"></div>
+                            <div class="flex-1 rounded-sm bg-emerald-500/70" style="height:90%"></div>
+                            <div class="flex-1 rounded-sm bg-emerald-500/80" style="height:95%"></div>
+                            <div class="flex-1 rounded-sm bg-emerald-500" style="height:100%"></div>
+                        </div>
+                    </div>
+                    <div class="nano text-slate-500 mt-5 pt-4 border-t border-white/5">→ SAAS · INTERNAL TOOLS · MARKETPLACES · APIS</div>
+                </div>
+
+                <!-- Card 2 — Intelligent Systems -->
+                <div class="feature-card rounded-xl p-7" data-anim>
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-11 h-11 rounded-lg glass-emerald flex items-center justify-center">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 2a4 4 0 0 0-4 4v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-2V6a4 4 0 0 0-4-4z"/><circle cx="12" cy="15" r="2"/></svg>
+                        </div>
+                        <span class="nano text-emerald-400">02 · INTELLIGENT SYSTEMS</span>
+                    </div>
+                    <h3 class="font-display font-bold text-[22px] mb-3">AI that solves actual problems.</h3>
+                    <p class="text-[14px] text-slate-300 leading-relaxed mb-5">
+                        Document understanding, autonomous agents with tool access, and knowledge systems that cite their sources. Every system ships with evaluation and monitoring.
+                    </p>
+                    <!-- Mini viz: RAG pipeline -->
+                    <div class="glass-mini rounded-lg p-4 space-y-3">
+                        <div class="nano-sm text-slate-500">RAG PIPELINE</div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-shrink-0 w-16 h-10 rounded border border-white/10 bg-white/[0.02] flex items-center justify-center">
+                                <span class="text-[10px] text-slate-400">DOCS</span>
+                            </div>
+                            <svg width="16" height="8" viewBox="0 0 16 8" class="text-emerald-500/50 shrink-0"><path d="M0 4h12M10 1l3 3-3 3" stroke="currentColor" fill="none" stroke-width="1.2"/></svg>
+                            <div class="flex-shrink-0 w-16 h-10 rounded border border-emerald-500/20 bg-emerald-500/5 flex items-center justify-center">
+                                <span class="text-[10px] text-emerald-400">EMBED</span>
+                            </div>
+                            <svg width="16" height="8" viewBox="0 0 16 8" class="text-emerald-500/50 shrink-0"><path d="M0 4h12M10 1l3 3-3 3" stroke="currentColor" fill="none" stroke-width="1.2"/></svg>
+                            <div class="flex-shrink-0 w-16 h-10 rounded border border-emerald-500/20 bg-emerald-500/5 flex items-center justify-center">
+                                <span class="text-[10px] text-emerald-400">SEARCH</span>
+                            </div>
+                            <svg width="16" height="8" viewBox="0 0 16 8" class="text-emerald-500/50 shrink-0"><path d="M0 4h12M10 1l3 3-3 3" stroke="currentColor" fill="none" stroke-width="1.2"/></svg>
+                            <div class="flex-shrink-0 w-16 h-10 rounded border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center">
+                                <span class="text-[10px] text-emerald-300 font-bold">LLM</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-white/5">
+                            <span class="nano-sm text-slate-500">ACCURACY</span>
+                            <span class="font-display font-bold text-emerald-400 text-[18px]">94<span class="text-slate-500 text-[11px]">%</span></span>
+                        </div>
+                        <div class="mini-bar"><div class="mini-bar-fill" style="width: 94%;"></div></div>
+                    </div>
+                    <div class="nano text-slate-500 mt-5 pt-4 border-t border-white/5">→ RAG · AGENTS · KNOWLEDGE EXTRACTION · MONITORING</div>
+                </div>
+
+                <!-- Card 3 — Automation -->
+                <div class="feature-card rounded-xl p-7" data-anim>
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-11 h-11 rounded-lg glass-emerald flex items-center justify-center">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+                        </div>
+                        <span class="nano text-emerald-400">03 · AUTOMATION</span>
+                    </div>
+                    <h3 class="font-display font-bold text-[22px] mb-3">Workflows that don't need you.</h3>
+                    <p class="text-[14px] text-slate-300 leading-relaxed mb-5">
+                        Systems that connect your tools, route your data, and handle repetitive work — reliably, at scale. Real infrastructure with error handling and graceful degradation.
+                    </p>
+                    <!-- Mini viz: workflow nodes -->
+                    <div class="glass-mini rounded-lg p-4">
+                        <div class="nano-sm text-slate-500 mb-3">WORKFLOW ENGINE</div>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-emerald-500" style="box-shadow: 0 0 6px rgba(16,185,129,0.6);"></div>
+                                <div class="flex-1 h-8 rounded border border-emerald-500/20 bg-emerald-500/5 flex items-center px-3">
+                                    <span class="text-[11px] text-emerald-300">Webhook received</span>
+                                </div>
+                                <span class="nano-sm text-emerald-400">0ms</span>
+                            </div>
+                            <div class="flex items-center gap-2 pl-3">
+                                <div class="w-[1px] h-3 bg-emerald-500/30 ml-[3px]"></div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-emerald-500/60"></div>
+                                <div class="flex-1 h-8 rounded border border-white/8 bg-white/[0.02] flex items-center px-3">
+                                    <span class="text-[11px] text-slate-300">Process & validate</span>
+                                </div>
+                                <span class="nano-sm text-slate-500">120ms</span>
+                            </div>
+                            <div class="flex items-center gap-2 pl-3">
+                                <div class="w-[1px] h-3 bg-emerald-500/20 ml-[3px]"></div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-emerald-500/40"></div>
+                                <div class="flex-1 h-8 rounded border border-white/8 bg-white/[0.02] flex items-center px-3">
+                                    <span class="text-[11px] text-slate-300">Route to CRM + Slack + Email</span>
+                                </div>
+                                <span class="nano-sm text-slate-500">340ms</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/5">
+                            <span class="nano-sm text-slate-500">RELIABILITY</span>
+                            <span class="font-display font-bold text-emerald-400 text-[14px]">99.9%</span>
+                        </div>
+                    </div>
+                    <div class="nano text-slate-500 mt-5 pt-4 border-t border-white/5">→ WORKFLOWS · INTEGRATIONS · EVENT-DRIVEN · DATA SYNC</div>
+                </div>
+
+                <!-- Card 4 — Growth Engineering -->
+                <div class="feature-card rounded-xl p-7" data-anim>
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-11 h-11 rounded-lg glass-emerald flex items-center justify-center">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+                        </div>
+                        <span class="nano text-emerald-400">04 · GROWTH</span>
+                    </div>
+                    <h3 class="font-display font-bold text-[22px] mb-3">Organic reach, engineered.</h3>
+                    <p class="text-[14px] text-slate-300 leading-relaxed mb-5">
+                        The technical infrastructure behind scalable content strategies — programmatic page generation, internal linking, and rank monitoring. SEO that compounds.
+                    </p>
+                    <!-- Mini viz: traffic growth -->
+                    <div class="glass-mini rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="nano-sm text-slate-500">ORGANIC TRAFFIC</span>
+                            <span class="nano-sm text-emerald-400">+320%</span>
+                        </div>
+                        <svg viewBox="0 0 220 70" class="w-full h-[70px]" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="growGrad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="rgba(16,185,129,0.4)"/>
+                                    <stop offset="100%" stop-color="rgba(16,185,129,0)"/>
+                                </linearGradient>
+                            </defs>
+                            <g stroke="rgba(255,255,255,0.05)" stroke-width="0.5">
+                                <line x1="0" y1="18" x2="220" y2="18"/>
+                                <line x1="0" y1="40" x2="220" y2="40"/>
+                                <line x1="0" y1="60" x2="220" y2="60"/>
+                            </g>
+                            <polygon points="10,60 50,55 90,48 130,38 170,22 210,8 210,65 10,65" fill="url(#growGrad)"/>
+                            <polyline points="10,60 50,55 90,48 130,38 170,22 210,8" fill="none" stroke="#10b981" stroke-width="2" vector-effect="non-scaling-stroke" style="filter: drop-shadow(0 0 4px rgba(16,185,129,0.6));"/>
+                            <circle cx="210" cy="8" r="3" fill="#10b981" style="filter: drop-shadow(0 0 6px rgba(16,185,129,0.8));"/>
+                        </svg>
+                        <div class="flex justify-between nano-sm text-slate-500 mt-2">
+                            <span>JAN</span><span>MAR</span><span>JUN</span><span>SEP</span><span>NOW</span>
+                        </div>
+                    </div>
+                    <div class="nano text-slate-500 mt-5 pt-4 border-t border-white/5">→ PROGRAMMATIC SEO · STRUCTURED DATA · RANK TRACKING</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="divider-glow max-w-[1080px] mx-auto"></div>
+
+    <!-- ============ APPROACH ============ -->
+    <section id="approach" class="scroll-mt relative py-28 px-6 z-10">
+        <!-- Section halo -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(16,185,129,0.05) 0%, transparent 60%); filter: blur(60px);"></div>
+
+        <div class="max-w-[1080px] mx-auto relative z-10">
+            <!-- Header -->
+            <div class="max-w-[720px] mb-14" data-anim>
+                <div class="inline-flex items-center gap-2 mb-5">
+                    <span class="nano text-emerald-400">[ 02 ]</span>
+                    <span class="nano text-slate-400">HOW WE WORK</span>
+                </div>
+                <h2 class="font-display font-bold text-[44px] leading-[1.1] tracking-tight mb-4">
+                    Clear process.<br><span class="grad-emerald">No surprises.</span>
+                </h2>
+                <p class="text-[15px] text-slate-400 leading-relaxed">
+                    Every engagement follows the same four-phase structure — adapted to your timeline, but never skipped.
+                </p>
+            </div>
+
+            <!-- 4 Steps -->
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="step-card rounded-xl p-6 relative overflow-hidden" data-anim>
+                    <div class="absolute top-0 left-0 right-0 h-[50%] pointer-events-none" style="background: radial-gradient(80% 100% at 50% 0%, rgba(16,185,129,0.10), transparent 70%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 rounded-xl glass-emerald flex items-center justify-center mb-5">
+                            <span class="font-display font-bold text-emerald-400 text-[16px]">01</span>
+                        </div>
+                        <h3 class="font-display font-bold text-[18px] mb-2">Understanding</h3>
+                        <p class="text-[13px] text-slate-300 leading-relaxed">
+                            We listen first. Requirements, constraints, existing systems. Clear scope document and architecture proposal before any code.
+                        </p>
+                    </div>
+                </div>
+                <div class="step-card rounded-xl p-6 relative overflow-hidden" data-anim>
+                    <div class="absolute top-0 left-0 right-0 h-[50%] pointer-events-none" style="background: radial-gradient(80% 100% at 50% 0%, rgba(16,185,129,0.08), transparent 70%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 rounded-xl glass-emerald flex items-center justify-center mb-5">
+                            <span class="font-display font-bold text-emerald-400 text-[16px]">02</span>
+                        </div>
+                        <h3 class="font-display font-bold text-[18px] mb-2">Building</h3>
+                        <p class="text-[13px] text-slate-300 leading-relaxed">
+                            Weekly sprint cycles with real progress every week — staging deploys, async updates, and brief video walkthroughs.
+                        </p>
+                    </div>
+                </div>
+                <div class="step-card rounded-xl p-6 relative overflow-hidden" data-anim>
+                    <div class="absolute top-0 left-0 right-0 h-[50%] pointer-events-none" style="background: radial-gradient(80% 100% at 50% 0%, rgba(16,185,129,0.08), transparent 70%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 rounded-xl glass-emerald flex items-center justify-center mb-5">
+                            <span class="font-display font-bold text-emerald-400 text-[16px]">03</span>
+                        </div>
+                        <h3 class="font-display font-bold text-[18px] mb-2">Refining</h3>
+                        <p class="text-[13px] text-slate-300 leading-relaxed">
+                            Automated testing, security review, edge cases, performance under load. We find problems before your users do.
+                        </p>
+                    </div>
+                </div>
+                <div class="step-card rounded-xl p-6 relative overflow-hidden" data-anim>
+                    <div class="absolute top-0 left-0 right-0 h-[50%] pointer-events-none" style="background: radial-gradient(80% 100% at 50% 0%, rgba(16,185,129,0.08), transparent 70%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 rounded-xl glass-emerald flex items-center justify-center mb-5">
+                            <span class="font-display font-bold text-emerald-400 text-[16px]">04</span>
+                        </div>
+                        <h3 class="font-display font-bold text-[18px] mb-2">Handing over</h3>
+                        <p class="text-[13px] text-slate-300 leading-relaxed">
+                            Source code, credentials, documentation — everything transfers to you. Full ownership. No lock-in.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guarantee strip -->
+            <div class="mt-8 feature-card rounded-xl p-6 flex items-center gap-4" data-anim>
+                <div class="w-10 h-10 rounded-lg glass-emerald flex items-center justify-center shrink-0">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 2L4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+                </div>
+                <p class="text-[14px] text-slate-300 leading-relaxed">
+                    Complete <span class="text-emerald-400 font-semibold">IP ownership</span>. Full source code. Production-ready deployment. <span class="text-emerald-400 font-semibold">30 days</span> of dedicated post-launch support. On every engagement.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider-glow max-w-[1080px] mx-auto"></div>
+
+    <!-- ============ TECHNOLOGY ============ -->
+    <section id="stack" class="scroll-mt relative py-28 px-6 z-10">
+        <div class="max-w-[1080px] mx-auto">
+            <div class="max-w-[720px] mb-14" data-anim>
+                <div class="inline-flex items-center gap-2 mb-5">
+                    <span class="nano text-emerald-400">[ 03 ]</span>
+                    <span class="nano text-slate-400">WHAT WE USE</span>
+                </div>
+                <h2 class="font-display font-bold text-[44px] leading-[1.1] tracking-tight mb-4">
+                    Modern stack.<br><span class="grad-emerald">No experiments</span> on your budget.
+                </h2>
+                <p class="text-[15px] text-slate-400 leading-relaxed">
+                    Proven, well-supported technologies — chosen for reliability, developer experience, and long-term maintainability.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-5 gap-4" data-anim>
+                <div class="space-y-4">
+                    <div class="nano text-emerald-400 mb-2">FRONTEND</div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">Next.js</div>
+                        <div class="text-[11px] text-slate-500">React framework</div>
+                    </div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">React</div>
+                        <div class="text-[11px] text-slate-500">UI library</div>
+                    </div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">Tailwind</div>
+                        <div class="text-[11px] text-slate-500">Styling</div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="nano text-emerald-400 mb-2">BACKEND</div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">Node.js</div>
+                        <div class="text-[11px] text-slate-500">Runtime</div>
+                    </div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">Python</div>
+                        <div class="text-[11px] text-slate-500">AI / scripting</div>
+                    </div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">FastAPI</div>
+                        <div class="text-[11px] text-slate-500">API framework</div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="nano text-emerald-400 mb-2">DATA</div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">PostgreSQL</div>
+                        <div class="text-[11px] text-slate-500">Database</div>
+                    </div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">Redis</div>
+                        <div class="text-[11px] text-slate-500">Cache / queue</div>
+                    </div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">Pinecone</div>
+                        <div class="text-[11px] text-slate-500">Vector DB</div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="nano text-emerald-400 mb-2">AI</div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">LangChain</div>
+                        <div class="text-[11px] text-slate-500">Orchestration</div>
+                    </div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">OpenAI</div>
+                        <div class="text-[11px] text-slate-500">GPT / embeddings</div>
+                    </div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">Claude</div>
+                        <div class="text-[11px] text-slate-500">Analysis / code</div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="nano text-emerald-400 mb-2">INFRA</div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">Vercel</div>
+                        <div class="text-[11px] text-slate-500">Frontend deploy</div>
+                    </div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">AWS</div>
+                        <div class="text-[11px] text-slate-500">Cloud infra</div>
+                    </div>
+                    <div class="tech-item step-card rounded-lg p-4 cursor-default">
+                        <div class="font-display font-bold text-[15px] mb-1">Docker</div>
+                        <div class="text-[11px] text-slate-500">Containers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider-glow max-w-[1080px] mx-auto"></div>
+
+    <!-- ============ FAQ ============ -->
+    <section id="faq" class="scroll-mt relative py-28 px-6 z-10">
+        <div class="max-w-[820px] mx-auto">
+            <div class="text-center mb-10" data-anim>
+                <div class="inline-flex items-center gap-2 mb-5">
+                    <span class="nano text-emerald-400">[ 04 ]</span>
+                    <span class="nano text-slate-400">QUESTIONS</span>
+                </div>
+                <h2 class="font-display font-bold text-[44px] leading-[1.1] tracking-tight mb-3">
+                    Things you might be <span class="grad-emerald">wondering</span>.
+                </h2>
+            </div>
+
+            <div class="space-y-2" data-anim id="faq-list">
+                <!-- FAQ items rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <div class="divider-glow max-w-[1080px] mx-auto"></div>
+
+    <!-- ============ CTA / CONTACT ============ -->
+    <section id="contact" class="scroll-mt relative py-28 px-6 z-10">
+        <!-- Halo -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 60%); filter: blur(60px);"></div>
+
+        <div class="max-w-[820px] mx-auto relative z-10">
+            <!-- Header -->
+            <div class="text-center mb-12" data-anim>
+                <div class="inline-flex items-center gap-2 mb-5">
+                    <span class="nano text-emerald-400">[ 05 ]</span>
+                    <span class="nano text-slate-400">LET'S START</span>
+                </div>
+                <h2 class="font-display font-bold text-[44px] leading-[1.1] tracking-tight mb-4">
+                    Ready to build<br><span class="grad-emerald">something?</span>
+                </h2>
+                <p class="text-[15px] text-slate-400 leading-relaxed max-w-[520px] mx-auto">
+                    Tell us what you have in mind. We'll get back to you within 24 hours with an honest assessment — whether we're the right fit or not.
+                </p>
+            </div>
+
+            <!-- Form -->
+            <div class="feature-card rounded-xl p-8" data-anim>
+                <form class="space-y-5" onsubmit="event.preventDefault(); showSuccess();">
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="nano text-slate-400 block mb-2">YOUR NAME</label>
+                            <input type="text" class="form-input" placeholder="Alex Morgan" required>
+                        </div>
+                        <div>
+                            <label class="nano text-slate-400 block mb-2">EMAIL</label>
+                            <input type="email" class="form-input" placeholder="alex@company.com" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="nano text-slate-400 block mb-2">WHAT DO YOU NEED?</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                            <label class="step-card rounded-lg p-3 cursor-pointer text-center transition-all hover:border-emerald-500/30 has-[:checked]:border-emerald-500/40 has-[:checked]:bg-emerald-500/5">
+                                <input type="checkbox" class="sr-only" name="service" value="web">
+                                <span class="text-[12px] text-slate-300">Web Platforms</span>
+                            </label>
+                            <label class="step-card rounded-lg p-3 cursor-pointer text-center transition-all hover:border-emerald-500/30 has-[:checked]:border-emerald-500/40 has-[:checked]:bg-emerald-500/5">
+                                <input type="checkbox" class="sr-only" name="service" value="ai">
+                                <span class="text-[12px] text-slate-300">Intelligent Systems</span>
+                            </label>
+                            <label class="step-card rounded-lg p-3 cursor-pointer text-center transition-all hover:border-emerald-500/30 has-[:checked]:border-emerald-500/40 has-[:checked]:bg-emerald-500/5">
+                                <input type="checkbox" class="sr-only" name="service" value="automation">
+                                <span class="text-[12px] text-slate-300">Automation</span>
+                            </label>
+                            <label class="step-card rounded-lg p-3 cursor-pointer text-center transition-all hover:border-emerald-500/30 has-[:checked]:border-emerald-500/40 has-[:checked]:bg-emerald-500/5">
+                                <input type="checkbox" class="sr-only" name="service" value="seo">
+                                <span class="text-[12px] text-slate-300">Growth Engineering</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="nano text-slate-400 block mb-2">TELL US ABOUT YOUR PROJECT</label>
+                        <textarea class="form-input" placeholder="What are you building? What problem does it solve? Any specific timeline?"></textarea>
+                    </div>
+                    <div class="flex items-center justify-between pt-2">
+                        <a href="mailto:hello@helitiva.com" class="text-[13px] text-slate-500 hover:text-emerald-400 transition-colors">
+                            or email hello@helitiva.com
+                        </a>
+                        <button type="submit" class="btn-primary btn-lg">
+                            <span>Start a conversation <span class="arrow">→</span></span>
+                        </button>
+                    </div>
+                </form>
+                <!-- Success state (hidden by default) -->
+                <div id="form-success" class="hidden text-center py-12">
+                    <div class="w-16 h-16 rounded-full glass-emerald flex items-center justify-center mx-auto mb-5">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>
+                    </div>
+                    <h3 class="font-display font-bold text-[22px] mb-2">Message sent.</h3>
+                    <p class="text-[14px] text-slate-400 leading-relaxed max-w-[400px] mx-auto">
+                        We've received your project brief. Our team will review it and respond within 24 hours.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="relative z-10 mt-12 px-6 pb-8">
+        <div class="max-w-[1080px] mx-auto step-card rounded-xl p-8">
+            <div class="grid md:grid-cols-4 gap-8 pb-8">
+                <!-- Brand -->
+                <div>
+                    <div class="flex items-center gap-2.5 mb-3">
+                        <svg width="24" height="24" viewBox="0 0 100 100" fill="#a7f3d0" class="drop-shadow-[0_0_4px_rgba(16,185,129,0.4)]">
+                            <path d="M35.6 89.5 A42 42 0 0 1 35.6 10.5 L40.8 24.6 A27 27 0 0 0 40.8 75.4Z"/>
+                            <path d="M64.4 10.5 A42 42 0 0 1 64.4 89.5 L59.2 75.4 A27 27 0 0 0 59.2 24.6Z"/>
+                            <rect x="8" y="43" width="84" height="14"/>
+                        </svg>
+                        <span class="font-display font-bold text-[16px]">Helitiva<span class="text-emerald-400">_</span></span>
+                    </div>
+                    <p class="text-[12px] text-slate-500 leading-relaxed mb-4">Thoughtful software, delivered.</p>
+                    <div class="flex gap-2">
+                        <a href="#" class="w-8 h-8 rounded-lg step-card flex items-center justify-center text-slate-500 hover:text-emerald-400 transition-colors">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-lg step-card flex items-center justify-center text-slate-500 hover:text-emerald-400 transition-colors">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-lg step-card flex items-center justify-center text-slate-500 hover:text-emerald-400 transition-colors">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <!-- Services -->
+                <div>
+                    <div class="nano text-slate-500 mb-4">SERVICES</div>
+                    <div class="space-y-2.5">
+                        <a href="#services" class="block text-[13px] text-slate-400 hover:text-white transition-colors">Web Platforms</a>
+                        <a href="#services" class="block text-[13px] text-slate-400 hover:text-white transition-colors">Intelligent Systems</a>
+                        <a href="#services" class="block text-[13px] text-slate-400 hover:text-white transition-colors">Automation</a>
+                        <a href="#services" class="block text-[13px] text-slate-400 hover:text-white transition-colors">Growth Engineering</a>
+                    </div>
+                </div>
+                <!-- Studio -->
+                <div>
+                    <div class="nano text-slate-500 mb-4">STUDIO</div>
+                    <div class="space-y-2.5">
+                        <a href="#approach" class="block text-[13px] text-slate-400 hover:text-white transition-colors">Approach</a>
+                        <a href="#stack" class="block text-[13px] text-slate-400 hover:text-white transition-colors">Technology</a>
+                        <a href="#contact" class="block text-[13px] text-slate-400 hover:text-white transition-colors">Contact</a>
+                    </div>
+                </div>
+                <!-- Legal -->
+                <div>
+                    <div class="nano text-slate-500 mb-4">LEGAL</div>
+                    <div class="space-y-2.5">
+                        <a href="#" class="block text-[13px] text-slate-400 hover:text-white transition-colors">Privacy</a>
+                        <a href="#" class="block text-[13px] text-slate-400 hover:text-white transition-colors">Terms</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Bottom bar -->
+            <div class="pt-6 border-t border-white/5 flex flex-wrap items-center justify-between gap-3">
+                <span class="text-[11px] text-slate-500">© 2025 Helitiva · All rights reserved</span>
+                <div class="flex items-center gap-2">
+                    <span class="live-dot" style="width:6px;height:6px;"></span>
+                    <span class="nano-sm text-slate-500">Accepting new projects</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============ SCRIPTS ============ -->
+
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+    <script>
+    // ============ UTILITIES ============
+    function onScroll(selector, fn, opts = {}) {
+        const els = document.querySelectorAll(selector);
+        if (!els.length) return;
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (!e.isIntersecting) return;
+                io.unobserve(e.target);
+                fn(e.target);
+            });
+        }, { threshold: opts.threshold || 0.12 });
+        els.forEach(el => io.observe(el));
+    }
+
+    // ============ NAV SCROLL ============
+    const nav = document.getElementById('topnav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('nav-scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // ============ HERO — WORD-BY-WORD ANIMATION ============
+    const heroH1 = document.querySelector('.hero-h1');
+    if (heroH1) {
+        heroH1.style.opacity = '1';
+        heroH1.style.transform = 'none';
+
+        // Split into lines by <br>, then words, preserving <span> tags
+        const lines = heroH1.innerHTML.split(/<br\s*\/?>/i);
+        heroH1.innerHTML = '';
+        let wordIdx = 0;
+        lines.forEach((line, li) => {
+            // Parse HTML in each line
+            const temp = document.createElement('span');
+            temp.innerHTML = line.trim();
+            temp.childNodes.forEach(node => {
+                if (node.nodeType === 3) {
+                    // Plain text — split into words
+                    node.textContent.split(/\s+/).filter(Boolean).forEach(w => {
+                        const s = document.createElement('span');
+                        s.className = 'hero-word';
+                        s.textContent = w;
+                        s.dataset.wi = wordIdx++;
+                        heroH1.appendChild(s);
+                        heroH1.appendChild(document.createTextNode(' '));
+                    });
+                } else {
+                    // HTML element (e.g. <span class="grad-emerald">)
+                    const wrapper = document.createElement('span');
+                    wrapper.className = 'hero-word';
+                    wrapper.dataset.wi = wordIdx++;
+                    wrapper.appendChild(node.cloneNode(true));
+                    heroH1.appendChild(wrapper);
+                    heroH1.appendChild(document.createTextNode(' '));
+                }
+            });
+            if (li < lines.length - 1) heroH1.appendChild(document.createElement('br'));
+        });
+
+        anime({
+            targets: '.hero-word',
+            opacity: [0, 1],
+            translateY: [50, 0],
+            duration: 900,
+            delay: (el) => 150 + parseInt(el.dataset.wi) * 80,
+            easing: 'easeOutExpo',
+        });
+    }
+
+    // ============ HERO — STAGGERED ENTRANCE (other elements) ============
+    const heroEls = document.querySelectorAll('section:first-of-type [data-anim]:not(.hero-h1)');
+    anime({
+        targets: Array.from(heroEls),
+        opacity: [0, 1],
+        translateY: [60, 0],
+        scale: [0.95, 1],
+        duration: 1200,
+        delay: anime.stagger(150, { start: 800 }),
+        easing: 'easeOutExpo',
+    });
+
+
+
+    // ============ HERO — TRUST BADGES BOUNCE ============
+    const trustBadges = document.querySelectorAll('section:first-of-type .glass-mini.rounded-full');
+    if (trustBadges.length) {
+        anime({
+            targets: Array.from(trustBadges),
+            opacity: [0, 1],
+            translateY: [20, 0],
+            scale: [0.8, 1],
+            duration: 600,
+            delay: anime.stagger(100, { start: 1500 }),
+            easing: 'easeOutElastic(1, 0.5)',
+        });
+    }
+
+    // ============ NUMBERS — DRAMATIC COUNTER POP ============
+    onScroll('.grid.grid-cols-2', (grid) => {
+        const items = grid.querySelectorAll('.text-center');
+        anime({
+            targets: Array.from(items),
+            opacity: [0, 1],
+            scale: [0, 1],
+            translateY: [60, 0],
+            rotate: [10, 0],
+            duration: 1000,
+            delay: anime.stagger(150),
+            easing: 'easeOutElastic(1, 0.4)',
+        });
+
+        grid.querySelectorAll('[data-count]').forEach(el => {
+            const target = +el.dataset.count;
+            const obj = { val: 0 };
+            anime({
+                targets: obj,
+                val: target,
+                round: 1,
+                duration: 2000,
+                easing: 'easeOutExpo',
+                delay: 400,
+                update: () => { el.textContent = obj.val.toLocaleString() + '+'; }
+            });
+        });
+    }, { threshold: 0.3 });
+
+    // ============ SERVICE CARDS — 3D REVEAL + CURSOR GLOW ============
+    onScroll('#services', (section) => {
+        const header = section.querySelector('[data-anim]');
+        if (header) {
+            anime({
+                targets: header,
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 800,
+                easing: 'easeOutCubic',
+            });
+        }
+
+        const cards = section.querySelectorAll('.feature-card');
+        cards.forEach(c => { c.classList.add('cursor-glow'); });
+        anime({
+            targets: Array.from(cards),
+            opacity: [0, 1],
+            translateY: [80, 0],
+            rotateX: [-15, 0],
+            scale: [0.9, 1],
+            duration: 1000,
+            delay: anime.stagger(200, { start: 300 }),
+            easing: 'easeOutCubic',
+        });
+
+        setTimeout(() => {
+            section.querySelectorAll('.mini-bar-fill').forEach(bar => {
+                const w = bar.style.width;
+                bar.style.width = '0%';
+                anime({ targets: bar, width: w, duration: 1500, easing: 'easeOutExpo' });
+            });
+        }, 800);
+    });
+
+    // ============ APPROACH STEPS — CASCADING SLIDE + ROTATE ============
+    onScroll('#approach', (section) => {
+        const header = section.querySelector('[data-anim]');
+        if (header) anime({ targets: header, opacity: [0,1], translateY: [40,0], duration: 700, easing: 'easeOutCubic' });
+
+        const steps = section.querySelectorAll('.step-card');
+        anime({
+            targets: Array.from(steps),
+            opacity: [0, 1],
+            translateX: (el, i) => [i % 2 === 0 ? -60 : 60, 0],
+            translateY: [40, 0],
+            rotate: (el, i) => [i % 2 === 0 ? -5 : 5, 0],
+            scale: [0.9, 1],
+            duration: 900,
+            delay: anime.stagger(150, { start: 200 }),
+            easing: 'easeOutCubic',
+        });
+
+        const strip = section.querySelector('.mt-8.feature-card');
+        if (strip) {
+            anime({
+                targets: strip,
+                opacity: [0, 1],
+                translateY: [40, 0],
+                scaleX: [0.8, 1],
+                duration: 800,
+                delay: 900,
+                easing: 'easeOutCubic',
+            });
+        }
+    });
+
+    // ============ TECH STACK — CASCADE POP WITH SPRING ============
+    onScroll('#stack', (section) => {
+        const header = section.querySelector('[data-anim]');
+        if (header) anime({ targets: header, opacity: [0,1], translateY: [40,0], duration: 700, easing: 'easeOutCubic' });
+
+        const items = section.querySelectorAll('.tech-item');
+        anime({
+            targets: Array.from(items),
+            opacity: [0, 1],
+            translateY: [30, 0],
+            scale: [0.7, 1],
+            rotate: [-8, 0],
+            duration: 600,
+            delay: anime.stagger(60, { start: 300 }),
+            easing: 'easeOutElastic(1, 0.5)',
+        });
+    });
+
+    // ============ FAQ — STAGGERED SLIDE FROM LEFT ============
+    onScroll('#faq', (section) => {
+        const header = section.querySelector('[data-anim]');
+        if (header) anime({ targets: header, opacity: [0,1], translateY: [40,0], duration: 700, easing: 'easeOutCubic' });
+
+        setTimeout(() => {
+            const items = section.querySelectorAll('.faq-item');
+            anime({
+                targets: Array.from(items),
+                opacity: [0, 1],
+                translateX: [-60, 0],
+                scaleX: [0.95, 1],
+                duration: 700,
+                delay: anime.stagger(100),
+                easing: 'easeOutCubic',
+            });
+        }, 300);
+    });
+
+    // ============ CONTACT — GRAND ENTRANCE ============
+    onScroll('#contact', (section) => {
+        const header = section.querySelector('[data-anim]');
+        if (header) anime({ targets: header, opacity: [0,1], translateY: [40,0], scale: [0.95,1], duration: 800, easing: 'easeOutCubic' });
+
+        const card = section.querySelector('.feature-card');
+        if (card) {
+            anime({
+                targets: card,
+                opacity: [0, 1],
+                scale: [0.92, 1],
+                translateY: [50, 0],
+                duration: 1000,
+                delay: 300,
+                easing: 'easeOutCubic',
+            });
+            setTimeout(() => {
+                anime({
+                    targets: card.querySelectorAll('.form-input, button'),
+                    opacity: [0, 1],
+                    translateY: [20, 0],
+                    duration: 500,
+                    delay: anime.stagger(80),
+                    easing: 'easeOutCubic',
+                });
+            }, 700);
+        }
+    });
+
+    // ============ ALL SECTION HEADINGS h2 — SLIDE UP + SHIMMER ============
+    onScroll('h2', (el) => {
+        anime({
+            targets: el,
+            opacity: [0, 1],
+            translateY: [40, 0],
+            duration: 900,
+            easing: 'easeOutCubic',
+            complete: () => {
+                const gradSpan = el.querySelector('.grad-emerald');
+                if (gradSpan) gradSpan.classList.add('text-shimmer');
+            }
+        });
+    });
+
+    // ============ DIVIDER GLOW — DRAW IN ============
+    onScroll('.divider-glow', (el) => {
+        el.classList.add('line-draw');
+        anime({
+            targets: el,
+            scaleX: [0, 1],
+            duration: 1200,
+            easing: 'easeOutCubic',
+        });
+    });
+
+    // ============ NON-HERO [data-anim] FALLBACK ============
+    const remaining = document.querySelectorAll('[data-anim]:not(section:first-of-type [data-anim])');
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            io.unobserve(e.target);
+            anime({
+                targets: e.target,
+                opacity: [0, 1],
+                translateY: [50, 0],
+                scale: [0.96, 1],
+                duration: 800,
+                easing: 'easeOutCubic',
+            });
+        });
+    }, { threshold: 0.12 });
+    remaining.forEach(el => io.observe(el));
+
+    // ============ 3D CARD TILT ON MOUSE MOVE ============
+    document.querySelectorAll('.feature-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -8;
+            const rotateY = ((x - centerX) / centerX) * 8;
+            anime({
+                targets: card,
+                rotateX: rotateX,
+                rotateY: rotateY,
+                duration: 200,
+                easing: 'easeOutQuad',
+            });
+        });
+        card.addEventListener('mouseleave', () => {
+            anime({
+                targets: card,
+                rotateX: 0,
+                rotateY: 0,
+                scale: 1,
+                duration: 600,
+                easing: 'easeOutElastic(1, 0.5)',
+            });
+        });
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--glow-x', (e.clientX - rect.left) + 'px');
+            card.style.setProperty('--glow-y', (e.clientY - rect.top) + 'px');
+        });
+    });
+
+    // ============ MAGNETIC BUTTONS ============
+    document.querySelectorAll('.btn-primary, .btn-ghost').forEach(btn => {
+        btn.classList.add('btn-magnetic');
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            anime({
+                targets: btn,
+                translateX: x * 0.3,
+                translateY: y * 0.3,
+                duration: 200,
+                easing: 'easeOutQuad',
+            });
+        });
+        btn.addEventListener('mouseleave', () => {
+            anime({
+                targets: btn,
+                translateX: 0,
+                translateY: 0,
+                scale: 1,
+                duration: 600,
+                easing: 'easeOutElastic(1, 0.4)',
+            });
+        });
+        btn.addEventListener('mouseenter', () => {
+            anime({
+                targets: btn,
+                scale: 1.05,
+                duration: 300,
+                easing: 'easeOutCubic',
+            });
+        });
+    });
+
+    // ============ STEP CARD HOVER — GLOW + LIFT ============
+    document.querySelectorAll('.step-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            anime({
+                targets: card,
+                translateY: -6,
+                scale: 1.02,
+                borderColor: 'rgba(16, 185, 129, 0.3)',
+                duration: 300,
+                easing: 'easeOutCubic',
+            });
+        });
+        card.addEventListener('mouseleave', () => {
+            anime({
+                targets: card,
+                translateY: 0,
+                scale: 1,
+                borderColor: 'rgba(110, 231, 183, 0.08)',
+                duration: 500,
+                easing: 'easeOutElastic(1, 0.5)',
+            });
+        });
+    });
+
+    // ============ TECH ITEMS HOVER — BOUNCE ============
+    document.querySelectorAll('.tech-item').forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            anime({
+                targets: item,
+                translateY: -6,
+                scale: 1.08,
+                duration: 300,
+                easing: 'easeOutCubic',
+            });
+        });
+        item.addEventListener('mouseleave', () => {
+            anime({
+                targets: item,
+                translateY: 0,
+                scale: 1,
+                duration: 600,
+                easing: 'easeOutElastic(1, 0.4)',
+            });
+        });
+    });
+
+    // ============ FLOATING TAGS — DRAMATIC FLOAT ============
+    document.querySelectorAll('.glass-mini[style*="animation"]').forEach((tag, i) => {
+        tag.style.animation = 'none';
+        anime({
+            targets: tag,
+            translateY: [-12, 12],
+            translateX: [-3, 3],
+            rotate: [-2, 2],
+            duration: 3000 + i * 1000,
+            direction: 'alternate',
+            loop: true,
+            easing: 'easeInOutSine',
+            delay: i * 500,
+        });
+    });
+
+    // ============ AURORA PARALLAX ON SCROLL ============
+    const auroras = document.querySelectorAll('.aurora');
+    window.addEventListener('scroll', () => {
+        const sy = window.scrollY;
+        auroras.forEach((a, i) => {
+            const speed = 0.15 + i * 0.08;
+            a.style.transform = `translateY(${sy * speed}px)`;
+        });
+    }, { passive: true });
+
+    // ============ DIVIDER GLOW PULSE (loop) ============
+    anime({
+        targets: '.divider-glow',
+        opacity: [0.4, 1, 0.4],
+        duration: 3000,
+        loop: true,
+        easing: 'easeInOutSine',
+    });
+
+    // ============ LIVE DOT PULSE ============
+    anime({
+        targets: '.live-dot',
+        scale: [1, 1.3, 1],
+        duration: 1500,
+        loop: true,
+        easing: 'easeInOutSine',
+    });
+
+    // ============ SCROLL CUE FADE OUT ON SCROLL ============
+    const scrollCue = document.querySelector('.scroll-cue');
+    if (scrollCue) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                anime({ targets: scrollCue, opacity: 0, translateY: 20, duration: 400, easing: 'easeOutCubic' });
+            }
+        }, { passive: true, once: true });
+    }
+
+    // ============ GLASS-EMERALD BADGES PULSE ============
+    anime({
+        targets: '.glass-emerald',
+        boxShadow: ['inset 0 1px 2px rgba(16,185,129,0.2)', 'inset 0 1px 2px rgba(16,185,129,0.2), 0 0 12px rgba(16,185,129,0.15)', 'inset 0 1px 2px rgba(16,185,129,0.2)'],
+        duration: 3000,
+        loop: true,
+        easing: 'easeInOutSine',
+        delay: anime.stagger(200),
+    });
+
+    // ============ FAQ CONTENT ============
+    const faqs = [
+        { q: 'How long does a typical project take?', a: 'Most projects run 3–8 weeks depending on complexity. We\'ll give you a clear timeline during scoping — and we hold ourselves to it.' },
+        { q: 'We\'re an early-stage startup. Can you work with us?', a: 'Absolutely. We\'ve designed our process to work well with small teams that need to move fast. No bureaucracy, no bloated timelines.' },
+        { q: 'How do you handle communication?', a: 'Dedicated Slack channel, weekly video updates, and a shared project board. We\'re available during business hours and we don\'t hide behind ticket queues.' },
+        { q: 'Can we change scope mid-project?', a: 'Yes. Weekly sprint cycles mean you can reprioritize between each one. No change-order paperwork.' },
+        { q: 'What happens after you deliver?', a: 'Every project includes 30 days of post-launch support. After that, we offer maintenance retainers or help transition the project to your internal team.' },
+        { q: 'Do we own everything?', a: 'Yes. 100% of source code, design assets, infrastructure configuration, and documentation transfers to you. No licensing, no lock-in, no strings.' },
+    ];
+
+    const faqList = document.getElementById('faq-list');
+    faqs.forEach((f) => {
+        const item = document.createElement('div');
+        item.className = 'faq-item step-card rounded-xl px-6 py-0 cursor-pointer';
+        item.innerHTML = `
+            <div class="flex items-center justify-between py-5" onclick="this.parentElement.classList.toggle('open')">
+                <span class="text-[15px] font-medium text-slate-200 pr-4">${f.q}</span>
+                <svg class="faq-chevron shrink-0 text-slate-500" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </div>
+            <div class="faq-body">
+                <div class="faq-body-inner">
+                    <div class="pb-5">
+                        <p class="text-[14px] text-slate-400 leading-relaxed">${f.a}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        faqList.appendChild(item);
+    });
+
+    // ============ FORM SUCCESS ============
+    function showSuccess() {
+        const form = document.querySelector('#contact form');
+        const success = document.getElementById('form-success');
+        anime({
+            targets: form,
+            opacity: [1, 0],
+            scale: [1, 0.92],
+            rotateX: [0, -10],
+            duration: 400,
+            easing: 'easeInCubic',
+            complete: () => {
+                form.classList.add('hidden');
+                success.classList.remove('hidden');
+                anime({
+                    targets: success,
+                    opacity: [0, 1],
+                    scale: [0.8, 1],
+                    translateY: [30, 0],
+                    duration: 700,
+                    easing: 'easeOutElastic(1, 0.5)',
+                });
+            }
+        });
+    }
+    </script>
+
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ============ HERO PARALLAX EXIT ============
+    // As user scrolls past hero, content drifts up + fades + scales down
+    const heroSection = document.querySelector('section:first-of-type');
+    const heroContent = heroSection.querySelector(':scope > div');
+    
+    gsap.to(heroContent, {
+        y: -120,
+        opacity: 0,
+        scale: 0.92,
+        scrollTrigger: {
+            trigger: heroSection,
+            start: 'top top',
+            end: 'bottom 30%',
+            scrub: 1.5,
+        }
+    });
+
+    // ============ HERO SCROLL CUE — fade out ============
+    gsap.to('.scroll-cue', {
+        opacity: 0,
+        y: -20,
+        scrollTrigger: {
+            trigger: heroSection,
+            start: '5% top',
+            end: '15% top',
+            scrub: true,
+        }
+    });
+
+    // ============ AURORA DEPTH PARALLAX ============
+    document.querySelectorAll('.aurora').forEach((a, i) => {
+        gsap.to(a, {
+            y: () => (i + 1) * 200,
+            scale: 1.1 + i * 0.05,
+            scrollTrigger: {
+                trigger: 'body',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 2 + i,
+            }
+        });
+    });
+
+    // ============ BG GRID PARALLAX ============
+    gsap.to('.bg-grid', {
+        y: 300,
+        scrollTrigger: {
+            trigger: 'body',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 3,
+        }
+    });
+
+    gsap.to('.bg-spotlight', {
+        y: 150,
+        opacity: 0.3,
+        scrollTrigger: {
+            trigger: 'body',
+            start: 'top top',
+            end: '50% top',
+            scrub: 2,
+        }
+    });
+
+    // ============ DIVIDER GLOW — DRAW IN ON SCROLL ============
+    gsap.utils.toArray('.divider-glow').forEach(line => {
+        gsap.fromTo(line,
+            { scaleX: 0, transformOrigin: 'center' },
+            {
+                scaleX: 1,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: line,
+                    start: 'top 85%',
+                    end: 'top 60%',
+                    scrub: 1,
+                }
+            }
+        );
+    });
+
+    // ============ SECTION HEADINGS — CLIP REVEAL ============
+    gsap.utils.toArray('h2').forEach(h2 => {
+        gsap.fromTo(h2, 
+            { clipPath: 'inset(0 100% 0 0)' },
+            {
+                clipPath: 'inset(0 0% 0 0)',
+                scrollTrigger: {
+                    trigger: h2,
+                    start: 'top 80%',
+                    end: 'top 55%',
+                    scrub: 1,
+                }
+            }
+        );
+    });
+
+    // ============ SERVICE CARDS — SCRUB STAGGER ============
+    gsap.utils.toArray('#services .feature-card').forEach((card, i) => {
+        gsap.fromTo(card,
+            { y: 80, rotateX: -6, opacity: 0 },
+            {
+                y: 0,
+                rotateX: 0,
+                opacity: 1,
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 90%',
+                    end: 'top 55%',
+                    scrub: 1,
+                }
+            }
+        );
+    });
+
+    // ============ APPROACH STEPS — TIMELINE SCRUB ============
+    const approachSteps = gsap.utils.toArray('#approach .step-card');
+    if (approachSteps.length) {
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: '#approach .grid',
+                start: 'top 80%',
+                end: 'bottom 40%',
+                scrub: 1.5,
+            }
+        });
+        approachSteps.forEach((step, i) => {
+            tl.fromTo(step,
+                { x: i % 2 === 0 ? -80 : 80, opacity: 0, rotate: i % 2 === 0 ? -4 : 4, scale: 0.9 },
+                { x: 0, opacity: 1, rotate: 0, scale: 1, duration: 1 },
+                i * 0.2
+            );
+        });
+    }
+
+    // ============ TECH STACK ITEMS — SCATTER TO GRID ============
+    gsap.utils.toArray('.tech-item').forEach((item, i) => {
+        gsap.fromTo(item,
+            { scale: 0.5, opacity: 0, rotate: gsap.utils.random(-15, 15), y: 40 },
+            {
+                scale: 1,
+                opacity: 1,
+                rotate: 0,
+                y: 0,
+                scrollTrigger: {
+                    trigger: item,
+                    start: 'top 90%',
+                    end: 'top 65%',
+                    scrub: 1,
+                }
+            }
+        );
+    });
+
+    // ============ NUMBERS — SCALE POP ON SCROLL ============
+    gsap.utils.toArray('.grid.grid-cols-2 .text-center').forEach((item, i) => {
+        gsap.fromTo(item,
+            { scale: 0, y: 40, opacity: 0 },
+            {
+                scale: 1,
+                y: 0,
+                opacity: 1,
+                ease: 'elastic.out(1, 0.4)',
+                scrollTrigger: {
+                    trigger: item,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none',
+                },
+                delay: i * 0.12,
+            }
+        );
+    });
+
+    // ============ FAQ — STAGGER SLIDE ============
+    ScrollTrigger.batch('#faq .faq-item', {
+        onEnter: (batch) => {
+            gsap.fromTo(batch,
+                { x: -60, opacity: 0 },
+                { x: 0, opacity: 1, stagger: 0.1, duration: 0.7, ease: 'power3.out' }
+            );
+        },
+        start: 'top 85%',
+    });
+
+    // ============ CONTACT CARD — GRAND SCALE ============
+    const contactCard = document.querySelector('#contact .feature-card');
+    if (contactCard) {
+        gsap.fromTo(contactCard,
+            { scale: 0.88, y: 60, opacity: 0 },
+            {
+                scale: 1,
+                y: 0,
+                opacity: 1,
+                scrollTrigger: {
+                    trigger: contactCard,
+                    start: 'top 85%',
+                    end: 'top 50%',
+                    scrub: 1,
+                }
+            }
+        );
+    }
+
+    // ============ NAV SCROLL PROGRESS BAR ============
+    // Add a thin emerald line under nav showing scroll progress
+    const progressBar = document.createElement('div');
+    progressBar.style.cssText = 'position:fixed;top:56px;left:0;height:2px;background:linear-gradient(90deg,#10b981,#6ee7b7);z-index:100;width:0%;transform-origin:left;';
+    document.body.appendChild(progressBar);
+
+    gsap.to(progressBar, {
+        width: '100%',
+        ease: 'none',
+        scrollTrigger: {
+            trigger: 'body',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.3,
+        }
+    });
+
+    // ============ GLOBE — PARALLAX DEPTH ============
+    const globeWrap = heroSection.querySelector('.globe-wrap');
+    if (globeWrap) {
+        gsap.to(globeWrap, {
+            y: -80,
+            scale: 0.9,
+            scrollTrigger: {
+                trigger: heroSection,
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 2,
+            }
+        });
+    }
+
+    // ============ FLOATING TAGS — PARALLAX SEPARATE ============
+    heroSection.querySelectorAll('.glass-mini.absolute').forEach((tag, i) => {
+        gsap.to(tag, {
+            y: -100 - i * 40,
+            x: i % 2 === 0 ? -30 : 30,
+            opacity: 0,
+            scrollTrigger: {
+                trigger: heroSection,
+                start: '10% top',
+                end: '60% top',
+                scrub: 1.5,
+            }
+        });
+    });
+
+    // ============ GUARANTEE STRIP — WIPE IN ============
+    const guarantee = document.querySelector('#approach .mt-8.feature-card');
+    if (guarantee) {
+        gsap.fromTo(guarantee,
+            { clipPath: 'inset(0 100% 0 0)', opacity: 0 },
+            {
+                clipPath: 'inset(0 0% 0 0)',
+                opacity: 1,
+                scrollTrigger: {
+                    trigger: guarantee,
+                    start: 'top 80%',
+                    end: 'top 55%',
+                    scrub: 1,
+                }
+            }
+        );
+    }
+
+    // ============ FOOTER — RISE FROM BELOW ============
+    gsap.fromTo('footer', 
+        { y: 60, opacity: 0 },
+        {
+            y: 0,
+            opacity: 1,
+            scrollTrigger: {
+                trigger: 'footer',
+                start: 'top 90%',
+                end: 'top 65%',
+                scrub: 1,
+            }
+        }
+    );
+    </script>
+</body>
+</html>

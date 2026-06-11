@@ -1,0 +1,236 @@
+@import "tailwindcss";
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/plus-jakarta-sans";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ── Helitiva tokens (dark, emerald accent) ─────────────── */
+:root {
+  --background: #05080a;
+  --foreground: #e6edf3;
+
+  --card: #0b1217;
+  --card-foreground: #e6edf3;
+  --popover: #0b1217;
+  --popover-foreground: #e6edf3;
+
+  --primary: #10b981;
+  --primary-foreground: #04130d;
+  --secondary: #101820;
+  --secondary-foreground: #e6edf3;
+
+  --muted: #101820;
+  --muted-foreground: #8b98a5;
+  --accent: #10b981;
+  --accent-foreground: #04130d;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: rgba(230, 237, 243, 0.08);
+  --input: rgba(230, 237, 243, 0.10);
+  --ring: rgba(16, 185, 129, 0.5);
+
+  --radius: 0.75rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: "Plus Jakarta Sans Variable", system-ui, sans-serif;
+  --font-display: "Space Grotesk Variable", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+}
+
+::selection {
+  background: rgba(16, 185, 129, 0.30);
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.18); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 0.32); }
+
+/* ── Floating story chips (hero) ────────────────────────── */
+.float-slow {
+  animation: float-y 7s ease-in-out infinite;
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+
+/* ── Primary lab button: solid emerald + shine sweep ────── */
+.btn-lab {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #34d399 0%, #10b981 100%);
+  color: #04130d;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 8px 24px -10px rgba(16, 185, 129, 0.55);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.btn-lab::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -70%;
+  width: 45%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.55s ease;
+  pointer-events: none;
+}
+.btn-lab:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 12px 32px -10px rgba(16, 185, 129, 0.75),
+    0 0 24px rgba(52, 211, 153, 0.35);
+}
+.btn-lab:hover::after {
+  left: 125%;
+}
+.btn-lab:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ── Method phase graphics ──────────────────────────────── */
+/* Probe: plan items get checked off one by one */
+.plan-check {
+  opacity: 0;
+  transform: scale(0.4);
+  animation: plan-check 7.5s infinite;
+}
+@keyframes plan-check {
+  0%, 8% { opacity: 0; transform: scale(0.4); }
+  12%, 84% { opacity: 1; transform: scale(1); }
+  92%, 100% { opacity: 0; transform: scale(0.4); }
+}
+
+/* Prototype: staging build fills, then the verdict stamp lands */
+.stage-prog {
+  width: 0;
+  animation: stage-prog 13s infinite;
+}
+@keyframes stage-prog {
+  0% { width: 0; }
+  22% { width: 100%; }
+  48% { width: 100%; }
+  50% { width: 0; }
+  72% { width: 100%; }
+  98% { width: 100%; }
+  100% { width: 0; }
+}
+.stamp-keep {
+  opacity: 0;
+  animation: stamp-keep 13s infinite;
+}
+@keyframes stamp-keep {
+  0%, 25% { opacity: 0; transform: scale(1.4) rotate(-7deg); }
+  29%, 46% { opacity: 1; transform: scale(1) rotate(-7deg); }
+  49%, 100% { opacity: 0; transform: scale(1.4) rotate(-7deg); }
+}
+.stamp-kill {
+  opacity: 0;
+  animation: stamp-kill 13s infinite;
+}
+@keyframes stamp-kill {
+  0%, 75% { opacity: 0; transform: scale(1.4) rotate(6deg); }
+  79%, 96% { opacity: 1; transform: scale(1) rotate(6deg); }
+  99%, 100% { opacity: 0; transform: scale(1.4) rotate(6deg); }
+}
+
+/* Production: gates pass, then the work travels to your repo */
+.gate-badge {
+  border-color: rgba(148, 163, 184, 0.25);
+  color: rgba(148, 163, 184, 0.65);
+  animation: gate-on 9s infinite;
+}
+@keyframes gate-on {
+  0%, 5% { border-color: rgba(148, 163, 184, 0.25); color: rgba(148, 163, 184, 0.65); }
+  10%, 86% { border-color: rgba(52, 211, 153, 0.6); color: #34d399; }
+  93%, 100% { border-color: rgba(148, 163, 184, 0.25); color: rgba(148, 163, 184, 0.65); }
+}
+.handover-dot {
+  left: 0;
+  opacity: 0;
+  animation: handover 9s infinite;
+}
+@keyframes handover {
+  0%, 36% { left: 0; opacity: 0; }
+  40% { opacity: 1; }
+  56% { left: calc(100% - 7px); opacity: 1; }
+  60%, 100% { left: calc(100% - 7px); opacity: 0; }
+}
+.repo-chip {
+  border-color: rgba(148, 163, 184, 0.25);
+  color: rgba(148, 163, 184, 0.7);
+  animation: repo-flash 9s infinite;
+}
+@keyframes repo-flash {
+  0%, 54% { border-color: rgba(148, 163, 184, 0.25); color: rgba(148, 163, 184, 0.7); box-shadow: none; }
+  58%, 86% { border-color: rgba(52, 211, 153, 0.7); color: #a7f3d0; box-shadow: 0 0 14px rgba(16, 185, 129, 0.3); }
+  93%, 100% { border-color: rgba(148, 163, 184, 0.25); color: rgba(148, 163, 184, 0.7); box-shadow: none; }
+}
+
+/* ── Logo marquee (single instance, Stack section) ──────── */
+.marquee-track {
+  animation: marquee-scroll 30s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+  to { transform: translateX(-100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

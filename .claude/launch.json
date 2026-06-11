@@ -1,0 +1,18 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "helitiva-landing",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000,
+      "autoPort": true
+    },
+    {
+      "name": "librechat",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["compose", "--project-directory", "/Users/huy/Desktop/Projects/Web2/LibreChat", "up"],
+      "port": 3080
+    }
+  ]
+}

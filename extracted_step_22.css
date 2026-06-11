@@ -1,0 +1,138 @@
+Created At: 2026-06-05T08:44:59Z
+Completed At: 2026-06-05T08:44:59Z
+File Path: `file:///Users/huy/Desktop/Projects/Web2/Helitiva%20landing/index.css`
+Total Lines: 245
+Total Bytes: 7711
+Showing lines 1 to 245
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: /* ==========================================================================
+2:    HELITIVA LABS - PURE DARK CYBER STYLESHEET
+3:    ========================================================================== */
+4: 
+5: * {
+6:     font-family: 'Manrope', 'Satoshi', 'Segoe UI', system-ui, sans-serif;
+7:     box-sizing: border-box;
+8: }
+9: 
+10: body {
+11:     background: #030303;
+12:     color: #F3F4F6;
+13:     font-feature-settings: 'cv11', 'ss01';
+14:     -webkit-font-smoothing: antialiased;
+15:     overflow-x: hidden;
+16: }
+17: 
+18: /* ==========================================================================
+19:    SCROLLBAR CONFIGURATIONS
+20:    ========================================================================== */
+21: :root {
+22:     scrollbar-color: #1a1e24 transparent;
+23:     scrollbar-width: thin;
+24: }
+25: 
+26: ::-webkit-scrollbar {
+27:     width: 6px;
+28:     height: 6px;
+29: }
+30: ::-webkit-scrollbar-thumb {
+31:     background: #1e242c;
+32:     border-radius: 3px;
+33: }
+34: ::-webkit-scrollbar-thumb:hover {
+35:     background: #00f5a0;
+36: }
+37: ::-webkit-scrollbar-track {
+38:     background: transparent;
+39: }
+40: 
+41: ::selection {
+42:     background: #00f5a0;
+43:     color: #030303;
+44: }
+45: 
+46: button:focus-visible, input:focus-visible, a:focus-visible, select:focus-visible, textarea:focus-visible {
+47:     outline: 2px solid #00f5a0;
+48:     outline-offset: 2px;
+49: }
+50: 
+51: /* ==========================================================================
+52:    CYBER DECORATIONS & EFFECTS
+53:    ====================================================
+<truncated 5265 bytes>
+80: .accent-border-soft { border-color: rgba(var(--c), 0.3) !important; }
+181: 
+182: /* Force icons inside accent badges to inherit color */
+183: .bg-accent-soft i, .bg-accent i { color: inherit !important; }
+184: 
+185: /* ==========================================================================
+186:    TERMINAL EMULATOR FX
+187:    ========================================================================== */
+188: .terminal-window {
+189:     background: #050608;
+190:     border: 1px solid rgba(255, 255, 255, 0.05);
+191:     border-radius: 12px;
+192:     font-family: 'Courier New', Courier, monospace;
+193:     position: relative;
+194:     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+195: }
+196: 
+197: .terminal-header {
+198:     background: #0c0d12;
+199:     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+200: }
+201: 
+202: .terminal-dot {
+203:     width: 8px;
+204:     height: 8px;
+205:     border-radius: 50%;
+206:     display: inline-block;
+207: }
+208: 
+209: @keyframes blink-cursor {
+210:     0%, 100% { opacity: 1; }
+211:     50% { opacity: 0; }
+212: }
+213: .terminal-cursor {
+214:     display: inline-block;
+215:     width: 6px;
+216:     height: 12px;
+217:     background: #00f5a0;
+218:     margin-left: 2px;
+219:     vertical-align: middle;
+220:     animation: blink-cursor 1s step-end infinite;
+221: }
+222: 
+223: /* ==========================================================================
+224:    FAQ ACCORDION TRANSITIONS
+225:    ========================================================================== */
+226: .faq-content {
+227:     max-height: 0;
+228:     overflow: hidden;
+229:     transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+230:     opacity: 0;
+231: }
+232: 
+233: .faq-item.active .faq-content {
+234:     max-height: 200px;
+235:     opacity: 1;
+236: }
+237: 
+238: .faq-item.active .faq-icon {
+239:     transform: rotate(180deg);
+240: }
+241: 
+242: .faq-icon {
+243:     transition: transform 0.3s ease;
+244: }
+245: 
+The above content shows the entire, complete file contents of the requested file.
+
+
+========================================
+STEP 159 (tool_call: replace_file_content for "/Users/huy/Desktop/Projects/Web2/Helitiva landing/index.js")
+TargetContent:
+"\n            requestAnimationFrame(draw);\n        };\n\n        document.addEventListener('DOMContentLoaded', () => {\n    // 1. Init Cyber Logo Animation\n    initLogoAnimation();\n\n    // 2. Interactive Widget: SaaS billing / Webapp Calculator (Sky Theme)\n    initSaaSCalculator();\n        canvas.addEventListener('mouseleave', () => {\n            isHovered = false;\n        });\n\n        draw();\n    });\n}"
+ReplacementContent:
+"            requestAnimationFrame(draw);\n        };\n\n        canvas.addEventListener('mouseenter', () => {\n            isHovered = true;\n            scanY = cy - R;\n        });\n\n        canvas.addEventListener('mouseleave', () => {\n            isHovered = false;\n        });\n\n        draw();\n    });\n}\n\n// ==========================================================================\n// 11. GLOBAL INITIALIZATION\n// ==========================================================================\ndocument.addEventListener('DOMContentLoaded', () => {\n    initLanguageManager();\n    initTerminalEmulator();\n    initSaaSCalculator();\n    initAIChatbot();\n    initMarketingScheduler();\n    initSEOSparkline();\n    initFAQAccordions();\n    initProjectEstimator();\n    initLogoAnimation();\n});"
+
+
